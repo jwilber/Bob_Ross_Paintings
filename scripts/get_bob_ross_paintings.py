@@ -92,7 +92,7 @@ def get_num_colors(result):
     return text_nums[2]
 
 
-def get_bob_ross_paintings(csv_name="get_bob_ross_paintings2.csv", verbose=1):
+def get_bob_ross_paintings(csv_name="get_bob_ross_paintings.csv", verbose=1):
     """
     Create dataset of Bob Ross paintings (& associated meta-data).
 
@@ -162,7 +162,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="Scrape paintings from Bob Ross."
     )
-    parser.add_argument('--csv_name', default='get_bob_ross_paintings2.csv',
+    parser.add_argument('--csv_name', default='get_bob_ross_paintings.csv',
                         help="Name of csv file to save data to.")
     parser.add_argument('--verbose', type=int, default=1,
                         help="If > 0, print scraping progress..")
