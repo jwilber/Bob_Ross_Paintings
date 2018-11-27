@@ -1,6 +1,6 @@
 # Bob_Ross_Paintings
 
-This repo stores data from [the paintings of Bob Ross](https://www.twoinchbrush.com/all-paintings) featured in the TB Show 'The Joy of Painting':
+This repo stores data from [the paintings of Bob Ross](https://www.twoinchbrush.com/all-paintings) featured in the TV Show 'The Joy of Painting':
 
 
 The following data is provided in this repo:
