@@ -44,13 +44,13 @@ $ python get_pomological_data.py  --csv_name bobross.csv --verbose 1
 ```
 
 
-## scripts/download_paintings.sh
+## scripts/dl_images.sh
 
-Bash script that, when run, will download each painting and save it in `data/images`.
+Shell script that, when run, will download a `png` for each painting and save it in `data/paintings/`.
 
 Example use:
 
 ```
 # call without arguments
-$ bash download_paintings.sh
+$ bash dl_images.sh
 ```
