@@ -24,9 +24,9 @@ Csv file containing metadata for each painting.
 | `colors_hex` | List of colors (hexadecimal code) used in the painting. | list |
 
 
-## data/bob_ross_paintings.csv
+## data/paintings/
 
-Links to pngs of each painting.
+Directory with a `png` image for each painting.
 
 
 ## scripts/get_bob_ross_paintings.py
