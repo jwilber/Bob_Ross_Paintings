@@ -2,15 +2,7 @@
 # author: Jared Wilber
 """get_bob_ross_data.py
 
-This script scrapes twoinchbrush.com for all available Bob Ross paintings
-Each row corresponds to a painting, with the following information collected:
-        - `painting_number`: Painting number as enumerated in collection.
-        - `fruit`: Name of the primary fruit depicted in the painting.
-        - `authors`: Author(s) of the given watercolor painting.
-        - `subjects`: Broader classification of fruit(s) depicted in the painting.
-        - `year`: Year painting was published.
-        - `thumbnail_image`: link to thumbnail jpg of watercolor painting.
-        - `image`: link to jpg image of watercolor painting.
+This script scrapes twoinchbrush.com for all available Bob Ross paintings from 'The Joy of Painting'.
 
 Example:
     The function may be called from the cli with or without arguments:
