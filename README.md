@@ -2,7 +2,7 @@
 
 This repo stores data from [the paintings of Bob Ross](https://www.twoinchbrush.com/all-paintings) featured in the TV Show 'The Joy of Painting':
 
-![Bob Ross Image](http://www.findyourgood.com/wp-content/uploads/2017/03/Screen-Shot-2017-03-22-at-10.52.50-PM-1024x565.png)
+![Bob Ross Image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS117A8XFP17_8SGyMZ_k8ne_nS1Ls0nqXagUc_F2lgbxilRYZqQQ&s)
 
 
 The following data is provided in this repo:
