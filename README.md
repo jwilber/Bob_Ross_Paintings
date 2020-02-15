@@ -40,7 +40,7 @@ Example use:
 $ python get_bob_ross_paintings.py
 
 # call with arguments
-$ python get_pomological_data.py  --csv_name bobross.csv --verbose 1
+$ python get_bob_ross_paintings.py  --csv_name bobross.csv --verbose 1
 ```
 
 
