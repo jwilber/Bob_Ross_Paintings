@@ -4,7 +4,7 @@ This repo stores data from [the paintings of Bob Ross](https://www.twoinchbrush.
 
 ![Bob Ross Image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS117A8XFP17_8SGyMZ_k8ne_nS1Ls0nqXagUc_F2lgbxilRYZqQQ&s)
 
-
+ 
 The following data is provided in this repo:
 
 ## data/bob_ross_paintings.csv
