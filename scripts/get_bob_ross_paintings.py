@@ -22,66 +22,16 @@ import pandas as pd
 
 from bs4 import BeautifulSoup
 
-BASE_URL = "https://www.twoinchbrush.com/all-paintings"
+BASE_URL = "https://www.twoinchbrush.com/all-paintings?page={}"
 IMAGE_URL = "https://www.twoinchbrush.com/{}"
 INFO_URL = "https://www.twoinchbrush.com/painting/{}"
+COLORS = ["Black_Gesso","Bright_Red","Burnt_Umber","Cadmium_Yellow","Dark_Sienna","Indian_Red","Indian_Yellow","Liquid_Black","Liquid_Clear","Midnight_Black","Phthalo_Blue","Phthalo_Green","Prussian_Blue","Sap_Green","Titanium_White","Van_Dyke_Brown","Yellow_Ochre","Alizarin_Crimson"]
 
 
 def get_youtube_src(result):
     """Extract youtube link."""
     youtube_src = result.find_all('iframe')[0]['src']
     return youtube_src
-
-
-def get_data_img(result):
-    """Extract data-img attribute."""
-    data_img = result.find_all('a')[0]['data-img']
-    return data_img
-
-
-def get_painting_number(result):
-    """Extract index of painting."""
-    data_img = get_data_img(result)
-    painting_number = re.search(r'\d+', data_img).group()
-    return int(painting_number)
-
-
-def get_img_src(result):
-    """Extract src of image."""
-    data_img = get_data_img(result)
-    img_src = IMAGE_URL.format(data_img[1:])
-    return img_src
-
-
-def get_painting_title(result):
-    """Extract title of painting."""
-    painting_title = result.find_all('p')[0].text
-    return painting_title
-
-
-def get_text_nums(result):
-    """Extract all text content associated with painting."""
-    text_data = result.find_all('p')[1].text
-    text_nums = re.findall(r'\d+', text_data)
-    return text_nums
-
-
-def get_season(result):
-    """Extract season (of show) in which the painting appeared."""
-    text_nums = get_text_nums(result)
-    return text_nums[0]
-
-
-def get_episode(result):
-    """Extract episode in which the painting appeared."""
-    text_nums = get_text_nums(result)
-    return text_nums[1]
-
-
-def get_num_colors(result):
-    """Extract the total number of colors used in painting."""
-    text_nums = get_text_nums(result)
-    return text_nums[2]
 
 
 def get_bob_ross_paintings(csv_name="get_bob_ross_paintings.csv", verbose=1):
@@ -101,38 +51,46 @@ def get_bob_ross_paintings(csv_name="get_bob_ross_paintings.csv", verbose=1):
         DataFrame of Bob Ross paintings with associated meta-data.
     """
     all_paintings = []
-    page = requests.get(BASE_URL)
-    soup = BeautifulSoup(page.content, 'html.parser')
+    for page_index in range(1, 18):
+        page = requests.get(BASE_URL.format(page_index))
+        soup = BeautifulSoup(page.content, 'html.parser')
 
-    paintings = soup.find_all('div', class_='painting-holder')
+        paintings = soup.find_all('div', class_='bob-ross-painting-holder')
 
-    for painting in paintings:
-        painting_dict = {
-            'painting_index': get_painting_number(painting),
-            'img_src': get_img_src(painting),
-            'painting_title': get_painting_title(painting),
-            'season': get_season(painting),
-            'episode': get_episode(painting),
-            'num_colors': get_num_colors(painting)
-        }
+        for painting in paintings:
+            season = painting['data-season']
+            episode = painting['data-episode']
+            sequential = (int(season) - 1) * 13 + int(episode)
+            painting_dict = {
+                'painting_index': painting['data-id'],
+                'img_src': painting['data-img'],
+                'painting_title': painting['data-title'],
+                'season': season,
+                'episode': episode,
+                'num_colors': painting['data-colors-count']
+            }
 
-        index = get_painting_number(painting)
-        info_url = INFO_URL.format(index)
-        info_page = requests.get(info_url)
-        info_soup = BeautifulSoup(info_page.content, 'html.parser')
-        colors = info_soup.find_all('ul', attrs={'class': None})[0].find_all('li')
-        color_names = [color.text for color in colors]
-        color_hexes = [color['style'].split(': ')[1] for color in colors]
+            index = painting['data-id']
+            info_url = INFO_URL.format(index)
+            info_page = requests.get(info_url)
+            info_soup = BeautifulSoup(info_page.content, 'html.parser')
+            colors = info_soup.find(id='color-list').find_all('li')
+            color_names = [color['data-name'] for color in colors]
+            color_hexes = [color['data-hex'] for color in colors]
 
-        painting_dict['youtube_src'] = get_youtube_src(info_soup)
-        painting_dict['colors'] = [color_names]
-        painting_dict['color_hex'] = [color_hexes]
-        if verbose > 0:
-            print('collected data from painting {}'.format(index))
-        # create dataframe from dict
-        painting_df = pd.DataFrame(painting_dict, index=[0])
+            painting_dict['youtube_src'] = get_youtube_src(info_soup)
+            painting_dict['colors'] = [color_names]
+            painting_dict['color_hex'] = [color_hexes]
 
-        all_paintings.append(painting_df)
+            for color in COLORS:
+                painting_dict[color] = 1 if color.replace('_', ' ') in painting_dict['colors'][0] else 0
+
+            if verbose > 0:
+                print('collected data from painting {}'.format(index), flush=True)
+            # create dataframe from dict
+            painting_df = pd.DataFrame(painting_dict, index=[sequential])
+
+            all_paintings.append(painting_df)
 
     # store all info to single dataframe
     all_painting_df = pd.concat(all_paintings)
@@ -145,12 +103,11 @@ def get_bob_ross_paintings(csv_name="get_bob_ross_paintings.csv", verbose=1):
 
 def main(csv_name, verbose):
     """Run script conditioned on user-input."""
-    print("Collecting Bob Ross paintings")
+    print("Collecting Bob Ross paintings", flush=True)
     return get_bob_ross_paintings(csv_name=csv_name, verbose=verbose)
 
 
 if __name__ == '__main__':
-
     parser = argparse.ArgumentParser(
         description="Scrape paintings from Bob Ross."
     )

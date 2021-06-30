@@ -5,7 +5,7 @@ This repo stores data from [the paintings of Bob Ross](https://www.twoinchbrush.
 ![Bob Ross Image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS117A8XFP17_8SGyMZ_k8ne_nS1Ls0nqXagUc_F2lgbxilRYZqQQ&s)
 
  
-The following data is provided in this repo:
+The following data is pulled from [TwoInchBrush.com](https://www.twoinchbrush.com/) and provided in this repo:
 
 ## data/bob_ross_paintings.csv
 
@@ -46,7 +46,7 @@ $ python get_bob_ross_paintings.py  --csv_name bobross.csv --verbose 1
 
 ## scripts/dl_images.sh
 
-Shell script that, when run, will download a `png` for each painting and save it in `data/paintings/`.
+Shell script that, when run, will download a `webp` for each painting and save it in `data/paintings/`.
 
 Example use:
 
