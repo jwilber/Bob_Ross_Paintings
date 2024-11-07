@@ -74,13 +74,18 @@ def get_bob_ross_paintings(csv_name="get_bob_ross_paintings.csv", verbose=1):
             info_url = INFO_URL.format(index)
             info_page = requests.get(info_url)
             info_soup = BeautifulSoup(info_page.content, 'html.parser')
-            colors = info_soup.find(id='color-list').find_all('li')
+
+            colors = info_soup.find(id='color-list').find_all(class_='badge-color')
             color_names = [color['data-name'] for color in colors]
             color_hexes = [color['data-hex'] for color in colors]
+
+            tag_list = info_soup.find('ul', class_='color-list').find_all(class_='badge-color')
+            tags = [tag.text for tag in tag_list]
 
             painting_dict['youtube_src'] = get_youtube_src(info_soup)
             painting_dict['colors'] = [color_names]
             painting_dict['color_hex'] = [color_hexes]
+            painting_dict['tags'] = [tags]
 
             for color in COLORS:
                 painting_dict[color] = 1 if color.replace('_', ' ') in painting_dict['colors'][0] else 0
