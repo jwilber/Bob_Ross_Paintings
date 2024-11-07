@@ -22,6 +22,7 @@ Csv file containing metadata for each painting.
 | `youtube_src` | Youtube video of episode featuring the painting. | text |
 | `colors` | List of colors used in the painting. | list |
 | `colors_hex` | List of colors (hexadecimal code) used in the painting. | list |
+| `tags` | List of items (e.g. 'Forest') featured in the painting. | list |
 
 
 ## data/paintings/
